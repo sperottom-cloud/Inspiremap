@@ -49,6 +49,7 @@ padding: 60px 24px;
 text-align: center;
 background: #004f56;
 position: relative;
+align-items: center;
 overflow: hidden;
 }
 
@@ -69,9 +70,9 @@ margin-bottom: 12px;
 
 .cover-acronym {
 font-family: ‘Playfair Display’, serif;
-font-size: clamp(44px, 11vw, 88px);
+font-size: clamp(28px, 10vw, 88px);
 font-weight: 700;
-letter-spacing: 0.22em;
+letter-spacing: 0.15em;
 color: #c9a84c;
 line-height: 1;
 position: relative;
@@ -164,6 +165,7 @@ width: 100%;
 max-width: 540px;
 position: relative;
 text-align: left;
+align-self: center;
 }
 
 .cover-goal-block label {
@@ -281,6 +283,7 @@ align-items: center;
 justify-content: center;
 padding: 48px 24px 96px;
 min-height: calc(100vh - 57px);
+align-items: center;
 }
 
 .goal-reminder {
@@ -304,6 +307,7 @@ font-weight: 600;
 width: 100%;
 max-width: 720px;
 animation: fadeUp 0.35s ease;
+margin: 0 auto;
 }
 
 @keyframes fadeUp {
@@ -313,8 +317,8 @@ to   { opacity: 1; transform: translateY(0); }
 
 .q-badge {
 display: inline-block;
-background: var(–teal-pale);
-color: var(–teal-dark);
+background: #d0ecee;
+color: #004f56;
 font-size: 10px;
 font-weight: 700;
 letter-spacing: 0.18em;
@@ -349,6 +353,7 @@ background: #ffffff;
 border: 1px solid #ede9e3;
 border-radius: 8px;
 padding: 22px 20px;
+margin: 0 auto;
 }
 
 .anchors-row-top {
@@ -503,6 +508,7 @@ padding: 64px 24px 80px;
 .results-inner {
 max-width: 860px;
 margin: 0 auto;
+text-align: center;
 }
 
 .results-header {
@@ -794,7 +800,8 @@ background: #ffffff;
 border-radius: 6px;
 padding: 20px 24px;
 margin-bottom: 14px;
-border-left: 4px solid var(–border);
+border-left: 4px solid #d0c8c0;
+text-align: left;
 }
 
 .output-card.forte  { border-left-color: var(–teal); }
@@ -878,7 +885,7 @@ margin-right: 3px;
 <div id="cover">
   <div class="cover-logo-wrap">
     <div class="cover-acronym">INSPIRE MAP</div>
-    <div class="cover-subtitle-gold">Dall'intuizione alla direzione che ha senso per te. Grazie a obiettivi ben formati.</div>
+    <div class="cover-subtitle-gold">Dall&#8217;intuizione alla direzione che ha senso per te.<br>Grazie a obiettivi ben formati.</div>
   </div>
   <div class="cover-line"></div>
   <div class="cover-tagline">Compila il test per valutare la qualità del tuo obiettivo lungo le dimensioni che lo formano.</div>
@@ -1001,16 +1008,16 @@ const questions = [
 ];
 
 const dimensions = [
-  { key:"I",  label:"Intrinsic",             items:[1,2,3,4,5] },
-  { key:"N",  label:"Negotiated",            items:[6,7,8,9] },
-  { key:"S",  label:"Specific",              items:[10,11,12] },
-  { key:"P",  label:"Proximal",              items:[13,14,16] },
-  { key:"IM", label:"Important",             items:[17,18,19,20] },
-  { key:"R",  label:"Result-focused",        items:[21,22,23,24] },
-  { key:"E",  label:"Empowering",            items:[25,26,27,28,29] },
-  { key:"M",  label:"Meaningfully coherent", items:[30,31,32,33] },
-  { key:"A",  label:"Adaptive",              items:[34,35,36,37,38] },
-  { key:"PO", label:"Positive",              items:[39,40,41] },
+  { key:"I",  label:"Intrinsic",             items:[1,2,3,4,5],   maxItems:5 },
+  { key:"N",  label:"Negotiated",            items:[6,7,8,9],      maxItems:4 },
+  { key:"S",  label:"Specific",              items:[10,11,12],     maxItems:3 },
+  { key:"P",  label:"Proximal",              items:[13,14,16],     maxItems:3 },
+  { key:"IM", label:"Important",             items:[17,18,19,20],  maxItems:4 },
+  { key:"R",  label:"Result-focused",        items:[21,22,23,24],  maxItems:4 },
+  { key:"E",  label:"Empowering",            items:[25,26,27,28,29], maxItems:5 },
+  { key:"M",  label:"Meaningfully coherent", items:[30,31,32,33],  maxItems:4 },
+  { key:"A",  label:"Adaptive",              items:[34,35,36,37,38], maxItems:5 },
+  { key:"PO", label:"Positive",              items:[39,40,41],     maxItems:3 },
 ];
 
 const dimensionOutputs = {
@@ -1135,7 +1142,7 @@ function showResults() {
       responsive: true,
       scales: {
         r: {
-          min: 0, max: 6,
+          min: 0, max: 5,
           ticks: { stepSize:1, font:{size:10}, color:"#aaa", backdropColor:"transparent" },
           grid: { color:"rgba(0,0,0,0.06)" },
           angleLines: { color:"rgba(0,0,0,0.06)" },
@@ -1150,7 +1157,8 @@ function showResults() {
   grid.innerHTML = "";
   dimensions.forEach(function(dim) {
     const s = scores[dim.key];
-    const pct = (s/6)*100;
+    const maxVal = dim.maxItems || 6;
+    const pct = (s/maxVal)*100;
     const isForte = s > 3;
     const cls = isForte ? "high" : "low";
     const tag = isForte
@@ -1167,7 +1175,7 @@ function showResults() {
     const cls = isForte ? "forte" : "debole";
     const label = isForte ? "Dimensione forte" : "Dimensione debole";
     const text = dimensionOutputs[dim.key] || "";
-    outHtml += "<div class=\"output-card " + cls + "\"><div class=\"output-card-header\"><span class=\"output-dim-name\">" + dim.label + "</span><span class=\"output-dim-score\">" + s + " / 6</span><span class=\"output-tag " + cls + "\">" + label + "</span></div><p class=\"output-card-text\">" + text + "</p></div>";
+    outHtml += "<div class=\"output-card " + cls + "\"><div class=\"output-card-header\"><span class=\"output-dim-name\">" + dim.label + "</span><span class=\"output-dim-score\">" + s + " / " + (dim.maxItems||6) + "</span><span class=\"output-tag " + cls + "\">" + label + "</span></div><p class=\"output-card-text\">" + text + "</p></div>";
   });
   outSec.innerHTML = outHtml;
 
