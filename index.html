@@ -1029,16 +1029,16 @@ const questions = [
 ];
 
 const dimensions = [
-  { key:"I",  label:"Intrinsic",             items:[1,2,3,4,5],   maxItems:5 },
-  { key:"N",  label:"Negotiated",            items:[6,7,8,9],      maxItems:4 },
-  { key:"S",  label:"Specific",              items:[10,11,12],     maxItems:3 },
-  { key:"P",  label:"Proximal",              items:[13,14,16],     maxItems:3 },
-  { key:"IM", label:"Important",             items:[17,18,19,20],  maxItems:4 },
-  { key:"R",  label:"Result-focused",        items:[21,22,23,24],  maxItems:4 },
-  { key:"E",  label:"Empowering",            items:[25,26,27,28,29], maxItems:5 },
-  { key:"M",  label:"Meaningfully coherent", items:[30,31,32,33],  maxItems:4 },
-  { key:"A",  label:"Adaptive",              items:[34,35,36,37,38], maxItems:5 },
-  { key:"PO", label:"Positive",              items:[39,40,41],     maxItems:3 },
+  { key:"I",  label:"Intrinsic",             items:[1,2,3,4,5],   maxItems:5,  displayKey:"I"  },
+  { key:"N",  label:"Negotiated",            items:[6,7,8,9],      maxItems:4,  displayKey:"N"  },
+  { key:"S",  label:"Specific",              items:[10,11,12],     maxItems:3,  displayKey:"S"  },
+  { key:"P",  label:"Proximal",              items:[13,14,16],     maxItems:3,  displayKey:"P"  },
+  { key:"IM", label:"Important",             items:[17,18,19,20],  maxItems:4,  displayKey:"I"  },
+  { key:"R",  label:"Result-focused",        items:[21,22,23,24],  maxItems:4,  displayKey:"R"  },
+  { key:"E",  label:"Empowering",            items:[25,26,27,28,29], maxItems:5, displayKey:"E"  },
+  { key:"M",  label:"Meaningfully coherent", items:[30,31,32,33],  maxItems:4,  displayKey:"M"  },
+  { key:"A",  label:"Adaptive",              items:[34,35,36,37,38], maxItems:5, displayKey:"A"  },
+  { key:"PO", label:"Positive",              items:[39,40,41],     maxItems:3,  displayKey:"P"  },
 ];
 
 const dimensionOutputs = {
@@ -1185,7 +1185,7 @@ function showResults() {
     const tag = isForte
       ? "<span class=\"dim-tag forte\">Dimensione forte</span>"
       : "<span class=\"dim-tag debole\">Dimensione debole</span>";
-    grid.innerHTML += "<div class=\"score-card " + cls + "\"><div class=\"score-letter\">" + dim.key + "</div><div class=\"score-name-row\"><span class=\"score-name\">" + dim.label + "</span>" + tag + "</div><div class=\"score-bar-track\"><div class=\"score-bar-fill\" style=\"width:" + pct + "%\"></div></div><div class=\"score-value\"><strong>" + s + "</strong> / " + (dim.maxItems||6) + "</div></div>";
+    grid.innerHTML += "<div class=\"score-card " + cls + "\"><div class=\"score-letter\">" + (dim.displayKey||dim.key) + "</div><div class=\"score-name-row\"><span class=\"score-name\">" + dim.label + "</span>" + tag + "</div><div class=\"score-bar-track\"><div class=\"score-bar-fill\" style=\"width:" + pct + "%\"></div></div><div class=\"score-value\"><strong>" + s + "</strong> / " + (dim.maxItems||6) + "</div></div>";
   });
 
   const outSec = document.getElementById("outputSection");
